@@ -1,0 +1,71 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the dataset
+df = pd.read_csv('Unemployment.csv')
+
+# Check the column names
+print("Column names in the dataset:")
+print(df.columns)
+
+# Strip any leading/trailing spaces from column names
+df.rename(columns=lambda x: x.strip(), inplace=True)
+
+# Check the updated column names
+print("\nUpdated Column names:")
+print(df.columns)
+
+# Ensure the 'Date' column is properly named and formatted
+if 'Date' not in df.columns:
+    print("\nError: The dataset does not have a 'Date' column.")
+else:
+    # Convert 'Date' column to datetime format
+    df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+    
+    # Check for missing values
+    print("\nMissing Values Before Filling:")
+    print(df.isnull().sum())
+    
+    # Drop rows with missing dates (if any)
+    df.dropna(subset=['Date'], inplace=True)
+    
+    # Fill missing values for other columns
+    df.fillna(method='ffill', inplace=True)
+    
+    # Check for missing values after filling
+    print("\nMissing Values After Filling:")
+    print(df.isnull().sum())
+    
+    # Data visualization
+    # Unemployment Rate by Region
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x='Region', y='Estimated Unemployment Rate (%)', data=df, ci=None)
+    plt.xticks(rotation=45)
+    plt.title('Unemployment Rate by Region')
+    plt.xlabel('Region')
+    plt.ylabel('Estimated Unemployment Rate (%)')
+    plt.tight_layout()
+    plt.show()
+
+    # Line plot for unemployment rate over time
+    plt.figure(figsize=(12, 6))
+    sns.lineplot(x='Date', y='Estimated Unemployment Rate (%)', hue='Region', data=df)
+    plt.title('Unemployment Rate Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Estimated Unemployment Rate (%)')
+    plt.legend(title='Region')
+    plt.tight_layout()
+    plt.show()
+
+    # Scatter plot for unemployment rate vs labor participation rate
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(x='Estimated Labour Participation Rate (%)', 
+                    y='Estimated Unemployment Rate (%)', 
+                    hue='Region', data=df)
+    plt.title('Unemployment Rate vs Labour Participation Rate')
+    plt.xlabel('Labour Participation Rate (%)')
+    plt.ylabel('Unemployment Rate (%)')
+    plt.legend(title='Region')
+    plt.tight_layout()
+    plt.show()
