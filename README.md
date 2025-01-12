@@ -1,3 +1,13 @@
+Name: Richa Singh
+
+Company: CodeAlpha
+
+ID: CA/JA1/1778
+
+Domain: Data Science
+
+Duration: 01Jan2025-30Jan2025
+
 # Unemployment Analysis
 
 ## Overview
