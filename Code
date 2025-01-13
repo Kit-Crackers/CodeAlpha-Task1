@@ -5,18 +5,18 @@ import seaborn as sns
 # Load the dataset
 df = pd.read_csv('Unemployment.csv')
 
-# Check the column names
+# Check column names
 print("Column names in the dataset:")
 print(df.columns)
 
-# Strip any leading/trailing spaces from column names
+# Strip any leading spaces from column names
 df.rename(columns=lambda x: x.strip(), inplace=True)
 
-# Check the updated column names
+# Check updated column names
 print("\nUpdated Column names:")
 print(df.columns)
 
-# Ensure the 'Date' column is properly named and formatted
+# Ensure 'Date' column is properly named and formatted
 if 'Date' not in df.columns:
     print("\nError: The dataset does not have a 'Date' column.")
 else:
@@ -27,7 +27,7 @@ else:
     print("\nMissing Values Before Filling:")
     print(df.isnull().sum())
     
-    # Drop rows with missing dates (if any)
+    # Drop rows with missing dates 
     df.dropna(subset=['Date'], inplace=True)
     
     # Fill missing values for other columns
@@ -37,8 +37,7 @@ else:
     print("\nMissing Values After Filling:")
     print(df.isnull().sum())
     
-    # Data visualization
-    # Unemployment Rate by Region
+    # Data visualization Unemployment Rate by Region
     plt.figure(figsize=(12, 6))
     sns.barplot(x='Region', y='Estimated Unemployment Rate (%)', data=df, ci=None)
     plt.xticks(rotation=45)
